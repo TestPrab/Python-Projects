@@ -2,7 +2,7 @@ import os
 st="File Not Found"
 def search(filename,dirname):
    pathf=[]
-   os.chdir(dirname)
+   os.chdir(str(dirname))
    for root,dir,files in os.walk(dirname):
         for inFile in files:
            if filename==inFile:
