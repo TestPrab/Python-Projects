@@ -12,7 +12,8 @@ def Login():
         server.login(sender,password)
         print("User Logged In successfully ")
         return 1
-     except:
+     except Exception as Error:
+        print(Error,"\n")
         print("Invalid Credentials ...press 1 to enter the email and password again else press 0 ")
         opt=input()
         if opt=="1":
