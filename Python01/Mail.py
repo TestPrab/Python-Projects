@@ -37,6 +37,7 @@ with smtplib.SMTP("smtp.gmail.com",587) as server:
     Message=input("Enter Your Message \n")
     result=Login()
     if(result==1):
+        server.sendmail(sender,Reciever,Message)
         print("Mail Sent Successfully ")
         sys.exit(1)
     else:
