@@ -2,26 +2,8 @@ import sys
 import smtplib
 import ssl
 import getpass
-sender=""
-password=""
-def Input():
-     sender=input("Enter Sender's Mail Id ")
-     password=getpass.getpass(prompt="Password :",stream=None)
-def Login():
-     try:
-        server.login(sender,password)
-        print("User Logged In successfully ")
-        return 1
-     except Exception as Error:
-        print(Error,"\n")
-        print("Invalid Credentials ...press 1 to enter the email and password again else press 0 ")
-        opt=input()
-        if opt=="1":
-            Input()
-            Login()
-        else:
-           return 0
-
+sender=" "
+password=" "
 context=ssl.create_default_context()
 with smtplib.SMTP("smtp.gmail.com",587) as server:
     try:
@@ -33,17 +15,42 @@ with smtplib.SMTP("smtp.gmail.com",587) as server:
         print("You are facing the following error: ")
         print(error)
         sys.exit(1)
-    Input()
+    sender=input("Enter you email ID")
+    password=getpass.getpass(prompt="Password")
     Reciever=input("Enter the Reciever's Mail Address ")
     Message=input("Enter Your Message \n")
-    result=Login()
-    if(result==1):
+    try:
+        server.login(sender,password)
+        print("User Logged In successfully ")
         server.sendmail(sender,Reciever,Message)
         print("Mail Sent Successfully ")
         sys.exit(1)
-    else:
-        print(" Mail Not sent ")
+    except Exception as Error:
+        print(Error,"\n")
+        print("Invalid Credentials ...press 1 to enter the email and password again else press 0 ")
+        opt=input()
+        if opt=="1":
+            sender=input("Enter you email ID")
+            password=getpass.getpass(prompt="Password") 
+            try:
+             server.login(sender,password)
+             print("User Logged In successfully ")
+             server.sendmail(sender,Reciever,Message)
+             print("Mail Sent Successfully ")
+             sys.exit(1)
+            except:
+                print(" Was not able to login ...closing connection and exiting ")
+                server.quit()
+                sys.exit(1)
+        else:
+           print(" Mail Not sent ")
+           sys.exit(1) 
+    try:
+     server.sendmail(sender,Reciever,Message)
+     print("Mail Sent Successfully ")
+     sys.exit(1)
+    except:
+        print(" Was not able to login ...closing connection and exiting ")
+        server.quit()
         sys.exit(1)
-
-
- 
+       
